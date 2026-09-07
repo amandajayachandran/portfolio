@@ -78,9 +78,13 @@
       // bounding-box bottom includes the font's built-in descent
       // allowance, which sits below the visible glyph for an all-caps
       // word — so it reads lower than where the letters actually end.
-      // Pull it back up by an estimated fraction of the font size.
+      // Pull it back up by an estimated fraction of the font size to
+      // approximate the true baseline, then a smaller amount further
+      // to land at the top of the letters' bottom stroke (not the
+      // full letter height).
       var fontSizePx = parseFloat(getComputedStyle(heroMassive).fontSize) || 0;
-      var baselineY = secondWordRect.bottom - fontSizePx * 0.22;
+      var trueBaseline = secondWordRect.bottom - fontSizePx * 0.22;
+      var baselineY = trueBaseline - fontSizePx * 0.1;
 
       heroPhoto.style.left = (gapX - bleedRect.left) + "px";
       heroPhoto.style.top = (baselineY - bleedRect.top) + "px";
