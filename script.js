@@ -121,6 +121,79 @@
     window.addEventListener("load", layoutHeroOverlay);
   }
 
+  // ---- Statement: split each line into letters, then scatter them on
+  // scroll — the section "breaks apart" as the user scrolls past it. ----
+  var statement = document.querySelector("[data-statement]");
+  var statementLines = statement ? statement.querySelectorAll("[data-line]") : null;
+
+  if (statement && statementLines && statementLines.length && !prefersReducedMotion) {
+    // Split each line's text into one <span class="letter"> per
+    // character, preserving spaces as plain text so words still wrap
+    // naturally at narrow widths.
+    statementLines.forEach(function (line) {
+      var text = line.textContent;
+      line.textContent = "";
+      text.split("").forEach(function (ch) {
+        if (ch === " ") {
+          line.appendChild(document.createTextNode(" "));
+          return;
+        }
+        var span = document.createElement("span");
+        span.className = "letter";
+        span.textContent = ch;
+        // Randomize the scatter direction/rotation and stagger the
+        // timing slightly per letter for a cascading break-apart feel.
+        var angle = Math.random() * Math.PI * 2;
+        var distance = 120 + Math.random() * 220;
+        span.style.setProperty("--tx", Math.round(Math.cos(angle) * distance) + "px");
+        span.style.setProperty("--ty", Math.round(Math.sin(angle) * distance) + "px");
+        span.style.setProperty("--rot", Math.round(Math.random() * 720 - 360) + "deg");
+        span.style.setProperty("--letter-delay", (Math.random() * 0.35).toFixed(2) + "s");
+        line.appendChild(span);
+      });
+    });
+
+    var scatterOn = function () {
+      statement.setAttribute("data-scattered", "");
+    };
+    var scatterOff = function () {
+      statement.removeAttribute("data-scattered");
+    };
+
+    if ("IntersectionObserver" in window) {
+      // Trigger once the section is mostly scrolled past (little of it
+      // left at the top of the viewport); reset if scrolled back above it.
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            var rect = entry.boundingClientRect;
+            if (!entry.isIntersecting && rect.top < 0) {
+              scatterOn();
+            } else if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+              scatterOff();
+            }
+          });
+        },
+        { threshold: [0, 0.6] }
+      );
+      observer.observe(statement);
+    } else {
+      // Fallback for browsers without IntersectionObserver support
+      window.addEventListener(
+        "scroll",
+        function () {
+          var rect = statement.getBoundingClientRect();
+          if (rect.bottom < window.innerHeight * 0.3) {
+            scatterOn();
+          } else if (rect.top > 0) {
+            scatterOff();
+          }
+        },
+        { passive: true }
+      );
+    }
+  }
+
   // ---- Footer year ----
   var yearEl = document.querySelector("[data-year]");
   if (yearEl) {
