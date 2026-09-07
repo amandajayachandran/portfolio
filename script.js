@@ -89,8 +89,17 @@
         }
       }
 
+      var fontSizePx = parseFloat(getComputedStyle(heroMassive).fontSize) || 0;
+
       var photoWidth = heroPhoto.getBoundingClientRect().width;
-      var minCenterX = lastELeft + photoWidth / 2;
+      // Small safety margin beyond the measured "E" edge: a DOM Range's
+      // rect reflects that character's advance box, which can sit a
+      // few pixels inside the glyph's actual visual ink depending on
+      // the font's side bearing. Padding out by a fraction of the
+      // headline's font size (rather than a fixed px value) keeps the
+      // margin proportional at any viewport width.
+      var edgeSafetyMargin = fontSizePx * 0.05;
+      var minCenterX = lastELeft + edgeSafetyMargin + photoWidth / 2;
       var centerX = Math.max(gapX, minCenterX);
 
       // Vertical anchor: the visual bottom of the letters. A span's
@@ -101,7 +110,6 @@
       // approximate the true baseline, then a smaller amount further
       // to land at the top of the letters' bottom stroke (not the
       // full letter height).
-      var fontSizePx = parseFloat(getComputedStyle(heroMassive).fontSize) || 0;
       var trueBaseline = secondWordRect.bottom - fontSizePx * 0.22;
       var baselineY = trueBaseline - fontSizePx * 0.1;
 
