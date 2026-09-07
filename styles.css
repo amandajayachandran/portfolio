@@ -581,7 +581,7 @@ img { max-width: 100%; display: block; }
   z-index: 1;
   background: var(--void);
   color: var(--paper);
-  padding: var(--space-6) var(--space-3);
+  padding: var(--space-6) var(--space-3) var(--space-1);
   text-align: center;
 }
 
@@ -610,7 +610,11 @@ img { max-width: 100%; display: block; }
 .award-list {
   max-width: 40rem;
   margin: var(--space-5) auto 0;
-  border-top: 1px solid var(--line-on-void);
+  background: var(--paper);
+  color: var(--ink);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  text-align: left;
 }
 
 .award-list li {
@@ -619,16 +623,21 @@ img { max-width: 100%; display: block; }
   justify-content: space-between;
   gap: var(--space-2);
   padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--line-on-void);
+  border-bottom: 1px solid var(--line);
   font-size: 0.9rem;
+}
+
+.award-list li:last-child {
+  border-bottom: 0;
 }
 
 .award-name {
   font-weight: 500;
+  color: var(--ink);
 }
 
 .award-detail {
-  color: rgba(241, 243, 239, 0.6);
+  color: var(--ink-soft);
   text-align: right;
 }
 
@@ -649,6 +658,8 @@ img { max-width: 100%; display: block; }
   max-width: var(--max-width);
   margin: 0 auto;
   padding: var(--space-6) var(--space-3);
+  background: var(--void);
+  color: var(--paper);
 }
 
 .about-grid {
@@ -666,15 +677,15 @@ img { max-width: 100%; display: block; }
 
 .about-copy p {
   max-width: 52ch;
-  color: var(--ink-soft);
+  color: rgba(241, 243, 239, 0.7);
   margin-bottom: var(--space-2);
 }
 
 .about-education {
   font-size: 0.85rem;
-  color: var(--ink-soft);
+  color: rgba(241, 243, 239, 0.6);
   padding-top: var(--space-2);
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-on-void);
   display: inline-block;
 }
 
@@ -682,7 +693,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   gap: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-on-void);
 }
 
 .timeline li {
@@ -690,12 +701,12 @@ img { max-width: 100%; display: block; }
   grid-template-columns: 5rem 1fr;
   gap: var(--space-2);
   padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-on-void);
 }
 
 .timeline-year {
   font-size: 0.8rem;
-  color: var(--ink-soft);
+  color: rgba(241, 243, 239, 0.6);
   padding-top: 0.15rem;
 }
 
@@ -706,7 +717,7 @@ img { max-width: 100%; display: block; }
 
 .timeline-org {
   display: block;
-  color: var(--ink-soft);
+  color: rgba(241, 243, 239, 0.7);
   font-size: 0.9rem;
 }
 
@@ -719,7 +730,7 @@ img { max-width: 100%; display: block; }
   z-index: 1;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-3) var(--space-5);
+  padding: 2.4rem var(--space-3) var(--space-5);
   text-align: left;
 }
 
