@@ -71,8 +71,27 @@
       var secondWordRect = heroWords[1].getBoundingClientRect();
 
       // Horizontal center of the photo: the gap between the two words
-      // (the "E" of Creative and the "D" of Director).
+      // (the "E" of Creative and the "D" of Director) — but never let
+      // the photo's own left edge cross left of the "E", regardless of
+      // how wide the photo renders at a given viewport size.
       var gapX = (firstWordRect.right + secondWordRect.left) / 2;
+
+      var creativeText = heroWords[0].firstChild;
+      var lastELeft = firstWordRect.right;
+      if (creativeText && creativeText.nodeType === Node.TEXT_NODE && creativeText.length > 0) {
+        var eRange = document.createRange();
+        var lastIndex = creativeText.length - 1;
+        eRange.setStart(creativeText, lastIndex);
+        eRange.setEnd(creativeText, lastIndex + 1);
+        var eRect = eRange.getBoundingClientRect();
+        if (eRect.width > 0) {
+          lastELeft = eRect.left;
+        }
+      }
+
+      var photoWidth = heroPhoto.getBoundingClientRect().width;
+      var minCenterX = lastELeft + photoWidth / 2;
+      var centerX = Math.max(gapX, minCenterX);
 
       // Vertical anchor: the visual bottom of the letters. A span's
       // bounding-box bottom includes the font's built-in descent
@@ -86,7 +105,7 @@
       var trueBaseline = secondWordRect.bottom - fontSizePx * 0.22;
       var baselineY = trueBaseline - fontSizePx * 0.1;
 
-      heroPhoto.style.left = (gapX - bleedRect.left) + "px";
+      heroPhoto.style.left = (centerX - bleedRect.left) + "px";
       heroPhoto.style.top = (baselineY - bleedRect.top) + "px";
 
       // Find the left edge of the first "R" in "Director" (index 2 of
