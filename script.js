@@ -121,76 +121,134 @@
     window.addEventListener("load", layoutHeroOverlay);
   }
 
-  // ---- Statement: split each line into letters, then scatter them on
-  // scroll — the section "breaks apart" as the user scrolls past it. ----
+  // ---- Statement: letters push away from the cursor and dim to grey,
+  // then spring back to white and rest once the cursor moves on. ----
   var statement = document.querySelector("[data-statement]");
+  var statementText = statement ? statement.querySelector(".statement-text") : null;
   var statementLines = statement ? statement.querySelectorAll("[data-line]") : null;
 
-  if (statement && statementLines && statementLines.length && !prefersReducedMotion) {
-    // Split each line's text into one <span class="letter"> per
-    // character, preserving spaces as plain text so words still wrap
-    // naturally at narrow widths.
-    statementLines.forEach(function (line) {
-      var text = line.textContent;
-      line.textContent = "";
-      text.split("").forEach(function (ch) {
-        if (ch === " ") {
-          line.appendChild(document.createTextNode(" "));
-          return;
-        }
-        var span = document.createElement("span");
-        span.className = "letter";
-        span.textContent = ch;
-        // Randomize the scatter direction/rotation and stagger the
-        // timing slightly per letter for a cascading break-apart feel.
-        var angle = Math.random() * Math.PI * 2;
-        var distance = 120 + Math.random() * 220;
-        span.style.setProperty("--tx", Math.round(Math.cos(angle) * distance) + "px");
-        span.style.setProperty("--ty", Math.round(Math.sin(angle) * distance) + "px");
-        span.style.setProperty("--rot", Math.round(Math.random() * 720 - 360) + "deg");
-        span.style.setProperty("--letter-delay", (Math.random() * 0.35).toFixed(2) + "s");
-        line.appendChild(span);
-      });
-    });
-
-    var scatterOn = function () {
-      statement.setAttribute("data-scattered", "");
-    };
-    var scatterOff = function () {
-      statement.removeAttribute("data-scattered");
-    };
-
+  if (statement && statementText && statementLines && statementLines.length) {
+    // Simple entrance: fade the whole block in once it scrolls into view.
     if ("IntersectionObserver" in window) {
-      // Trigger once the section is mostly scrolled past (little of it
-      // left at the top of the viewport); reset if scrolled back above it.
-      var observer = new IntersectionObserver(
+      var revealObserver = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
-            var rect = entry.boundingClientRect;
-            if (!entry.isIntersecting && rect.top < 0) {
-              scatterOn();
-            } else if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-              scatterOff();
+            if (entry.isIntersecting) {
+              statementText.classList.add("is-visible");
+              revealObserver.unobserve(statement);
             }
           });
         },
-        { threshold: [0, 0.6] }
+        { threshold: 0.2 }
       );
-      observer.observe(statement);
+      revealObserver.observe(statement);
     } else {
-      // Fallback for browsers without IntersectionObserver support
-      window.addEventListener(
-        "scroll",
-        function () {
-          var rect = statement.getBoundingClientRect();
-          if (rect.bottom < window.innerHeight * 0.3) {
-            scatterOn();
-          } else if (rect.top > 0) {
-            scatterOff();
+      statementText.classList.add("is-visible");
+    }
+
+    if (!prefersReducedMotion) {
+      // Split each line's text into one <span class="letter"> per
+      // character, preserving spaces as plain text so words still wrap
+      // naturally at narrow widths.
+      statementLines.forEach(function (line) {
+        var text = line.textContent;
+        line.textContent = "";
+        text.split("").forEach(function (ch) {
+          if (ch === " ") {
+            line.appendChild(document.createTextNode(" "));
+            return;
           }
-        },
-        { passive: true }
-      );
+          var span = document.createElement("span");
+          span.className = "letter";
+          span.textContent = ch;
+          line.appendChild(span);
+        });
+      });
+
+      var letters = Array.prototype.slice.call(statement.querySelectorAll(".letter"));
+      // Each letter gets a small fixed personality — a touch of extra
+      // jitter added on top of the pure push-away-from-cursor vector —
+      // so the reaction reads as organic scattering rather than a
+      // mechanically perfect radial push.
+      var letterData = letters.map(function (el) {
+        return {
+          el: el,
+          cx: 0,
+          cy: 0,
+          active: false,
+          jitterX: (Math.random() - 0.5) * 40,
+          jitterY: (Math.random() - 0.5) * 40,
+          jitterRot: (Math.random() - 0.5) * 60
+        };
+      });
+
+      var RADIUS = 130;
+      var MAX_PUSH = 42;
+
+      var cacheLetterPositions = function () {
+        var sectionRect = statement.getBoundingClientRect();
+        letterData.forEach(function (d) {
+          var r = d.el.getBoundingClientRect();
+          d.cx = r.left + r.width / 2 - sectionRect.left;
+          d.cy = r.top + r.height / 2 - sectionRect.top;
+        });
+      };
+
+      cacheLetterPositions();
+      window.addEventListener("resize", cacheLetterPositions);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(cacheLetterPositions);
+      }
+
+      var pointerActive = false;
+      var pointerX = 0;
+      var pointerY = 0;
+      var ticking = false;
+
+      var applyPointerEffect = function () {
+        ticking = false;
+        letterData.forEach(function (d) {
+          var dx = d.cx - pointerX;
+          var dy = d.cy - pointerY;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (pointerActive && dist < RADIUS) {
+            var factor = 1 - dist / RADIUS;
+            var norm = dist === 0 ? 0 : 1 / dist;
+            var pushX = dx * norm * MAX_PUSH * factor + d.jitterX * factor;
+            var pushY = dy * norm * MAX_PUSH * factor + d.jitterY * factor;
+            var rot = d.jitterRot * factor;
+            d.el.style.transform =
+              "translate(" + pushX.toFixed(1) + "px, " + pushY.toFixed(1) + "px) rotate(" + rot.toFixed(1) + "deg)";
+            d.el.style.color = "var(--ink-soft)";
+            d.active = true;
+          } else if (d.active) {
+            d.el.style.transform = "";
+            d.el.style.color = "";
+            d.active = false;
+          }
+        });
+      };
+
+      var requestUpdate = function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(applyPointerEffect);
+        }
+      };
+
+      statement.addEventListener("pointermove", function (event) {
+        var sectionRect = statement.getBoundingClientRect();
+        pointerX = event.clientX - sectionRect.left;
+        pointerY = event.clientY - sectionRect.top;
+        pointerActive = true;
+        requestUpdate();
+      });
+
+      statement.addEventListener("pointerleave", function () {
+        pointerActive = false;
+        requestUpdate();
+      });
     }
   }
 
