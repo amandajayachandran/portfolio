@@ -312,11 +312,14 @@ img { max-width: 100%; display: block; }
   aspect-ratio: 4 / 5;
   background: var(--paper-dim);
   border: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--space-2);
+  overflow: hidden;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .hero-photo-label {
