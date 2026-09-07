@@ -422,7 +422,7 @@ img { max-width: 100%; display: block; }
 
 .section-head {
   max-width: 34ch;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-3);
 }
 
 .section-head h2 {
@@ -471,14 +471,13 @@ img { max-width: 100%; display: block; }
 }
 
 .portfolio-note {
-  margin-top: var(--space-5);
-  padding-top: var(--space-4);
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
   border-top: 1px solid var(--line);
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
 }
 
 .portfolio-note p {
