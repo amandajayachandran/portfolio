@@ -73,9 +73,14 @@
       // Horizontal center of the photo: the gap between the two words
       // (the "E" of Creative and the "D" of Director).
       var gapX = (firstWordRect.right + secondWordRect.left) / 2;
-      // Vertical anchor: the text baseline, approximated by the bottom
-      // of the second word (both words share the same line/baseline).
-      var baselineY = secondWordRect.bottom;
+
+      // Vertical anchor: the visual bottom of the letters. A span's
+      // bounding-box bottom includes the font's built-in descent
+      // allowance, which sits below the visible glyph for an all-caps
+      // word — so it reads lower than where the letters actually end.
+      // Pull it back up by an estimated fraction of the font size.
+      var fontSizePx = parseFloat(getComputedStyle(heroMassive).fontSize) || 0;
+      var baselineY = secondWordRect.bottom - fontSizePx * 0.22;
 
       heroPhoto.style.left = (gapX - bleedRect.left) + "px";
       heroPhoto.style.top = (baselineY - bleedRect.top) + "px";
