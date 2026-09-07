@@ -89,8 +89,22 @@
       heroPhoto.style.left = (gapX - bleedRect.left) + "px";
       heroPhoto.style.top = (baselineY - bleedRect.top) + "px";
 
-      var photoRect = heroPhoto.getBoundingClientRect();
-      var taglineLeft = photoRect.right - bleedRect.left;
+      // Find the left edge of the first "R" in "Director" (index 2 of
+      // the text node: D-i-r-e-c-t-o-r) via a Range, since there's no
+      // per-letter element to measure directly.
+      var directorText = heroWords[1].firstChild;
+      var firstRLeft = secondWordRect.left;
+      if (directorText && directorText.nodeType === Node.TEXT_NODE && directorText.length > 2) {
+        var range = document.createRange();
+        range.setStart(directorText, 2);
+        range.setEnd(directorText, 3);
+        var rRect = range.getBoundingClientRect();
+        if (rRect.width > 0) {
+          firstRLeft = rRect.left;
+        }
+      }
+
+      var taglineLeft = firstRLeft - bleedRect.left;
       var taglineRight = secondWordRect.right - bleedRect.left;
       var headlineBottom = heroMassive.getBoundingClientRect().bottom - bleedRect.top;
 
