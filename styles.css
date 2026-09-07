@@ -502,7 +502,8 @@ img { max-width: 100%; display: block; }
 }
 
 /* ==========================================================================
-   Statement — black section, breaks apart into scattered letters on scroll
+   Statement — black section; letters react to the cursor, pushing away
+   and dimming to grey, then springing back to white on release
    ========================================================================== */
 
 .statement {
@@ -517,6 +518,12 @@ img { max-width: 100%; display: block; }
 .statement-text {
   max-width: var(--max-width);
   margin: 0 auto;
+  opacity: 0;
+  transition: opacity 1s var(--ease);
+}
+
+.statement-text.is-visible {
+  opacity: 1;
 }
 
 .statement-visual {
@@ -534,17 +541,26 @@ img { max-width: 100%; display: block; }
 }
 
 /* Each letter becomes its own inline-block once script.js splits the
-   line, so it can be transformed independently when the section breaks
-   apart. Spaces are preserved as plain text nodes between letters. */
+   line, so the cursor can push and dim individual letters. Resting
+   state is plain white with no offset; script.js sets an inline
+   transform/color only for letters currently near the pointer, and
+   clears it (letting these defaults + the transition take over) once
+   the pointer moves away. */
 .statement-line .letter {
   display: inline-block;
-  transition: transform 0.9s var(--ease), opacity 0.7s var(--ease);
-  transition-delay: var(--letter-delay, 0s);
+  color: var(--paper);
+  transform: translate(0, 0) rotate(0deg);
+  transition: transform 0.4s var(--ease), color 0.4s var(--ease);
 }
 
-.statement[data-scattered] .letter {
-  transform: translate(var(--tx, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
-  opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  .statement-text {
+    opacity: 1;
+    transition: none;
+  }
+  .statement-line .letter {
+    transition: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
