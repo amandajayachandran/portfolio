@@ -105,6 +105,18 @@ img { max-width: 100%; display: block; }
   top: var(--space-2);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ==========================================================================
    Section kickers — numbered labels, echo the hairline/timeline treatment
    ========================================================================== */
@@ -487,6 +499,62 @@ img { max-width: 100%; display: block; }
 .portfolio-note-cta:focus-visible {
   background: var(--ink);
   color: var(--paper);
+}
+
+/* ==========================================================================
+   Statement — black section, breaks apart into scattered letters on scroll
+   ========================================================================== */
+
+.statement {
+  position: relative;
+  z-index: 1;
+  background: var(--void);
+  color: var(--paper);
+  padding: var(--space-6) var(--space-3);
+  overflow: hidden;
+}
+
+.statement-text {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.statement-visual {
+  display: block;
+}
+
+.statement-line {
+  display: block;
+  font-family: var(--font-display-bold);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 5.2vw, 4.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+}
+
+/* Each letter becomes its own inline-block once script.js splits the
+   line, so it can be transformed independently when the section breaks
+   apart. Spaces are preserved as plain text nodes between letters. */
+.statement-line .letter {
+  display: inline-block;
+  transition: transform 0.9s var(--ease), opacity 0.7s var(--ease);
+  transition-delay: var(--letter-delay, 0s);
+}
+
+.statement[data-scattered] .letter {
+  transform: translate(var(--tx, 0), var(--ty, 0)) rotate(var(--rot, 0deg));
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statement-line .letter {
+    transition: none;
+  }
+  .statement[data-scattered] .letter {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
