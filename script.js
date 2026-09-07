@@ -119,6 +119,21 @@
       document.fonts.ready.then(layoutHeroOverlay);
     }
     window.addEventListener("load", layoutHeroOverlay);
+
+    // Recalculate again once the headshot image itself has loaded —
+    // on some connections it finishes after the above have already run.
+    var heroPhotoImg = heroPhoto.querySelector("img");
+    if (heroPhotoImg && !heroPhotoImg.complete) {
+      heroPhotoImg.addEventListener("load", layoutHeroOverlay);
+    }
+
+    // Safety net: on a cold cache (first visit, no cached fonts), the
+    // custom font can finish swapping in slightly after fonts.ready
+    // and the load event both fire, leaving the overlay positioned
+    // against fallback-font metrics until a manual reload. A couple
+    // of short delayed re-checks catch that without needing one.
+    setTimeout(layoutHeroOverlay, 300);
+    setTimeout(layoutHeroOverlay, 1000);
   }
 
   // ---- Statement: letters push away from the cursor and dim to grey,
@@ -249,6 +264,47 @@
         pointerActive = false;
         requestUpdate();
       });
+
+      // Scroll sweep: drive the same push/dim effect from scroll
+      // position too, so it fires without the person needing to move
+      // their mouse — a synthetic "cursor" travels straight down the
+      // horizontal middle of the text as the section scrolls through
+      // the viewport, inviting a pause to interact directly.
+      var lastScrollY = window.scrollY;
+
+      var applyScrollSweep = function () {
+        var sectionRect = statement.getBoundingClientRect();
+        var localY = window.innerHeight / 2 - sectionRect.top;
+
+        if (localY >= 0 && localY <= sectionRect.height) {
+          pointerX = sectionRect.width / 2;
+          pointerY = localY;
+          pointerActive = true;
+          requestUpdate();
+        } else if (pointerActive) {
+          pointerActive = false;
+          requestUpdate();
+        }
+      };
+
+      var scrollTicking = false;
+      window.addEventListener(
+        "scroll",
+        function () {
+          lastScrollY = window.scrollY;
+          if (!scrollTicking) {
+            scrollTicking = true;
+            requestAnimationFrame(function () {
+              scrollTicking = false;
+              applyScrollSweep();
+            });
+          }
+        },
+        { passive: true }
+      );
+
+      // In case the section is already in view on load.
+      applyScrollSweep();
     }
   }
 
