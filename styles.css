@@ -253,22 +253,13 @@ img { max-width: 100%; display: block; }
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  padding: 0 var(--space-3);
+  padding: 0 var(--space-3) var(--space-5);
   box-sizing: border-box;
 }
 
-.hero-tagline {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-align: right;
-  color: var(--ink-soft);
-  margin: 0 0 var(--space-2);
-}
-
 .hero-massive {
+  position: relative;
+  z-index: 2;
   font-family: var(--font-display-bold);
   font-weight: 900;
   text-transform: uppercase;
@@ -307,16 +298,17 @@ img { max-width: 100%; display: block; }
   .hero-massive[data-reveal].is-ready span { animation: none; }
 }
 
-/* ---- Headshot: off-center, below the headline, not overlapping ---- */
-
-.hero-photo-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--space-4);
-}
+/* ---- Headshot: tucked behind the headline, top edge at the text baseline ----
+   Default position below is a fallback; script.js measures the actual
+   Creative/Director gap and baseline and overrides left/top precisely. */
 
 .hero-photo {
-  width: clamp(10rem, 20vw, 15rem);
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, -18%);
+  width: clamp(9rem, 16vw, 13rem);
   aspect-ratio: 4 / 5;
   background: var(--paper-dim);
   border: 1px solid var(--line);
@@ -325,12 +317,31 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   text-align: center;
   padding: var(--space-2);
-  transform: translateX(8%);
 }
 
 .hero-photo-label {
   font-size: 0.75rem;
   color: var(--ink-soft);
+}
+
+/* ---- Tagline: below the headline, spanning from the photo's right edge
+   to the right edge of the headline. Width/position set by script.js;
+   text-align-last stretches the words to fill that exact span. ---- */
+
+.hero-tagline {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: justify;
+  text-align-last: justify;
+  color: var(--ink-soft);
+  margin: 0;
+  white-space: normal;
 }
 
 /* ---- Specialty list ---- */
@@ -705,11 +716,17 @@ img { max-width: 100%; display: block; }
     gap: var(--space-3);
   }
   .hero-photo {
+    position: static;
     transform: none;
+    margin: var(--space-3) auto 0;
     width: 9rem;
   }
   .hero-tagline {
+    position: static;
     text-align: left;
+    text-align-last: auto;
+    width: auto;
+    margin-top: var(--space-2);
   }
 }
 
