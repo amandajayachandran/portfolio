@@ -40,29 +40,62 @@
     });
   }
 
-  // ---- Hero tagline: align its right edge exactly to the headline's ----
+  // ---- Hero overlay: position the headshot at the Creative/Director gap
+  // (tucked behind the text baseline) and stretch the tagline between the
+  // headshot's right edge and the headline's right edge. ----
   var heroTagline = document.querySelector(".hero-tagline");
+  var heroPhoto = document.querySelector(".hero-photo");
   var heroMassive = document.querySelector(".hero-massive");
   var heroBleed = document.querySelector(".hero-full-bleed");
+  var heroWords = heroMassive ? heroMassive.querySelectorAll("span") : null;
 
-  if (heroTagline && heroMassive && heroBleed) {
-    var alignTagline = function () {
-      // Reset first so the measurement isn't thrown off by a prior offset
-      heroTagline.style.marginRight = "0px";
-      var headlineRight = heroMassive.getBoundingClientRect().right;
-      var bleedRight = heroBleed.getBoundingClientRect().right;
-      var bleedStyles = window.getComputedStyle(heroBleed);
-      var bleedPaddingRight = parseFloat(bleedStyles.paddingRight) || 0;
-      var innerRight = bleedRight - bleedPaddingRight;
-      var offset = innerRight - headlineRight;
-      heroTagline.style.marginRight = Math.max(offset, 0) + "px";
+  if (heroTagline && heroPhoto && heroMassive && heroBleed && heroWords && heroWords.length >= 2) {
+    var MOBILE_BREAKPOINT = 860;
+
+    var clearOverlayStyles = function () {
+      heroPhoto.style.left = "";
+      heroPhoto.style.top = "";
+      heroTagline.style.left = "";
+      heroTagline.style.top = "";
+      heroTagline.style.width = "";
     };
 
-    alignTagline();
-    window.addEventListener("resize", alignTagline);
+    var layoutHeroOverlay = function () {
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        clearOverlayStyles();
+        return;
+      }
+
+      var bleedRect = heroBleed.getBoundingClientRect();
+      var firstWordRect = heroWords[0].getBoundingClientRect();
+      var secondWordRect = heroWords[1].getBoundingClientRect();
+
+      // Horizontal center of the photo: the gap between the two words
+      // (the "E" of Creative and the "D" of Director).
+      var gapX = (firstWordRect.right + secondWordRect.left) / 2;
+      // Vertical anchor: the text baseline, approximated by the bottom
+      // of the second word (both words share the same line/baseline).
+      var baselineY = secondWordRect.bottom;
+
+      heroPhoto.style.left = (gapX - bleedRect.left) + "px";
+      heroPhoto.style.top = (baselineY - bleedRect.top) + "px";
+
+      var photoRect = heroPhoto.getBoundingClientRect();
+      var taglineLeft = photoRect.right - bleedRect.left;
+      var taglineRight = secondWordRect.right - bleedRect.left;
+      var headlineBottom = heroMassive.getBoundingClientRect().bottom - bleedRect.top;
+
+      heroTagline.style.left = taglineLeft + "px";
+      heroTagline.style.width = Math.max(taglineRight - taglineLeft, 40) + "px";
+      heroTagline.style.top = (headlineBottom + 12) + "px";
+    };
+
+    layoutHeroOverlay();
+    window.addEventListener("resize", layoutHeroOverlay);
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(alignTagline);
+      document.fonts.ready.then(layoutHeroOverlay);
     }
+    window.addEventListener("load", layoutHeroOverlay);
   }
 
   // ---- Footer year ----
