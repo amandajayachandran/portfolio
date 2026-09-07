@@ -307,11 +307,10 @@ img { max-width: 100%; display: block; }
   z-index: 1;
   left: 50%;
   top: 100%;
-  transform: translate(-50%, -18%);
+  transform: translate(-50%, -45%);
   width: clamp(9rem, 16vw, 13rem);
   aspect-ratio: 4 / 5;
   background: var(--paper-dim);
-  border: 1px solid var(--line);
   overflow: hidden;
 }
 
