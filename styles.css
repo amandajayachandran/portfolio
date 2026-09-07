@@ -608,12 +608,16 @@ img { max-width: 100%; display: block; }
 }
 
 .award-list {
-  max-width: 40rem;
-  margin: var(--space-5) auto 0;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: var(--space-5);
   background: var(--paper);
   color: var(--ink);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius);
+  padding: var(--space-4) max(var(--space-3), calc(50% - 20rem));
   text-align: left;
 }
 
@@ -655,8 +659,6 @@ img { max-width: 100%; display: block; }
 .about {
   position: relative;
   z-index: 1;
-  max-width: var(--max-width);
-  margin: 0 auto;
   padding: var(--space-6) var(--space-3);
   background: var(--void);
   color: var(--paper);
@@ -666,6 +668,8 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
   gap: var(--space-5);
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .about-copy h2 {
@@ -762,10 +766,18 @@ img { max-width: 100%; display: block; }
   opacity: 0.6;
 }
 
-.contact-note {
-  margin-top: var(--space-2);
-  font-size: 0.85rem;
-  color: var(--ink-soft);
+.contact-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.contact-logo {
+  width: clamp(5rem, 10vw, 8rem);
+  height: auto;
+  flex-shrink: 0;
 }
 
 .social-button {
