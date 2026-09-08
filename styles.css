@@ -326,7 +326,7 @@ img { max-width: 100%; display: block; }
   left: 50%;
   top: 100%;
   transform: translate(-50%, 0);
-  width: clamp(9rem, 16vw, 13rem);
+  width: clamp(11.7rem, 20.8vw, 16.9rem);
   aspect-ratio: 4 / 5;
   background: var(--paper-dim);
   overflow: hidden;
