@@ -36,6 +36,7 @@
   var heroPhoto = document.querySelector(".hero-photo");
   var heroMassive = document.querySelector(".hero-massive");
   var heroBleed = document.querySelector(".hero-full-bleed");
+  var heroSpecialties = document.querySelector(".hero-specialties");
   var heroWords = heroMassive ? heroMassive.querySelectorAll("span") : null;
 
   if (heroTagline && heroPhoto && heroMassive && heroBleed && heroWords && heroWords.length >= 2) {
@@ -47,6 +48,9 @@
       heroTagline.style.left = "";
       heroTagline.style.top = "";
       heroTagline.style.width = "";
+      if (heroSpecialties) {
+        heroSpecialties.style.marginLeft = "";
+      }
     };
 
     var layoutHeroOverlay = function () {
@@ -127,6 +131,18 @@
       heroTagline.style.left = taglineLeft + "px";
       heroTagline.style.width = Math.max(taglineRight - taglineLeft, 40) + "px";
       heroTagline.style.top = (headlineBottom + 12) + "px";
+
+      // Specialty list: pull its left edge (the first "/") to sit
+      // exactly 200px from the headshot's left edge, regardless of
+      // where the list naturally falls in normal flow.
+      if (heroSpecialties) {
+        heroSpecialties.style.marginLeft = "0px";
+        var specialtiesRect = heroSpecialties.getBoundingClientRect();
+        var photoLeftViewport = heroPhoto.getBoundingClientRect().left;
+        var desiredLeftViewport = photoLeftViewport - 200;
+        var marginAdjustment = desiredLeftViewport - specialtiesRect.left;
+        heroSpecialties.style.marginLeft = marginAdjustment + "px";
+      }
     };
 
     layoutHeroOverlay();
