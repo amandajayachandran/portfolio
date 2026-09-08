@@ -37,6 +37,7 @@
   var heroMassive = document.querySelector(".hero-massive");
   var heroBleed = document.querySelector(".hero-full-bleed");
   var heroSpecialties = document.querySelector(".hero-specialties");
+  var heroSection = document.querySelector(".hero");
   var heroWords = heroMassive ? heroMassive.querySelectorAll("span") : null;
 
   if (heroTagline && heroPhoto && heroMassive && heroBleed && heroWords && heroWords.length >= 2) {
@@ -50,6 +51,9 @@
       heroTagline.style.width = "";
       if (heroSpecialties) {
         heroSpecialties.style.marginLeft = "";
+      }
+      if (heroSection) {
+        heroSection.style.paddingBottom = "";
       }
     };
 
@@ -142,6 +146,23 @@
         var desiredLeftViewport = photoLeftViewport - 200;
         var marginAdjustment = desiredLeftViewport - specialtiesRect.left;
         heroSpecialties.style.marginLeft = marginAdjustment + "px";
+      }
+
+      // Guard: the headshot hangs below the headline via an absolute
+      // top offset, so at some viewport sizes its bottom edge can sit
+      // past the hero section's own bottom padding and visually touch
+      // the section below. Force enough clearance regardless of font
+      // metrics or screen size.
+      if (heroSection) {
+        heroSection.style.paddingBottom = "";
+        var heroSectionRect = heroSection.getBoundingClientRect();
+        var photoBottomViewport = heroPhoto.getBoundingClientRect().bottom;
+        var clearance = 48;
+        var overflowPast = photoBottomViewport + clearance - heroSectionRect.bottom;
+        if (overflowPast > 0) {
+          var currentPaddingBottom = parseFloat(getComputedStyle(heroSection).paddingBottom) || 0;
+          heroSection.style.paddingBottom = (currentPaddingBottom + overflowPast) + "px";
+        }
       }
     };
 
