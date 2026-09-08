@@ -280,12 +280,17 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-display-bold);
   font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(3.5rem, 13.5vw, 12rem);
+  /* Calibrated so the cap-height of a letter like "C" lands near 155px
+     on a standard desktop display. Big Shoulders Display's cap-height
+     runs roughly 73% of the font-size, so 155 / 0.73 ≈ 212px. This
+     sandbox can't load the real font to verify the exact pixel
+     result — check the rendered size and nudge this value if needed. */
+  font-size: 212px;
   line-height: 0.86;
   letter-spacing: -0.01em;
   display: flex;
   flex-wrap: wrap;
-  gap: 0 0.35em;
+  gap: 0 20px;
 }
 
 .hero-massive span {
@@ -325,7 +330,8 @@ img { max-width: 100%; display: block; }
   left: 50%;
   top: 100%;
   transform: translate(-50%, 0);
-  width: clamp(9rem, 16vw, 13rem);
+  height: 375px;
+  width: auto;
   aspect-ratio: 4 / 5;
   background: var(--paper-dim);
   overflow: hidden;
