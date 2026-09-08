@@ -29,17 +29,6 @@
     });
   }
 
-  // ---- Scroll cue: jump to the target section ----
-  var scrollCue = document.querySelector("[data-scroll-to]");
-  if (scrollCue) {
-    scrollCue.addEventListener("click", function () {
-      var target = document.querySelector(scrollCue.getAttribute("data-scroll-to"));
-      if (target) {
-        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-      }
-    });
-  }
-
   // ---- Hero overlay: position the headshot at the Creative/Director gap
   // (tucked behind the text baseline) and stretch the tagline between the
   // headshot's right edge and the headline's right edge. ----
