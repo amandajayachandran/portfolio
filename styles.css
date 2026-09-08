@@ -232,7 +232,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-6) var(--space-3) var(--space-4);
+  padding: 4rem var(--space-3) var(--space-4);
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -410,11 +410,14 @@ img { max-width: 100%; display: block; }
 .focus {
   position: relative;
   z-index: 1;
-  max-width: var(--max-width);
-  margin: 0 auto;
   padding: var(--space-5) var(--space-3);
   background: var(--void);
   color: var(--paper);
+}
+
+.focus-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .section-head {
@@ -577,7 +580,7 @@ img { max-width: 100%; display: block; }
   z-index: 1;
   background: var(--void);
   color: var(--paper);
-  padding: var(--space-6) var(--space-3) var(--space-1);
+  padding: 4rem var(--space-3) var(--space-1);
   text-align: center;
 }
 
@@ -653,7 +656,7 @@ img { max-width: 100%; display: block; }
 .about {
   position: relative;
   z-index: 1;
-  padding: var(--space-6) var(--space-3);
+  padding: 4rem var(--space-3);
 }
 
 .about-grid {
