@@ -159,13 +159,12 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--line);
 }
 
-.mark {
+.mark-logo-link {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
   flex-shrink: 0;
-  grid-column: 2;
-  justify-self: center;
+  grid-column: 1;
+  justify-self: start;
 }
 
 .mark-logo {
@@ -174,6 +173,8 @@ img { max-width: 100%; display: block; }
 }
 
 .mark-text {
+  grid-column: 2;
+  justify-self: center;
   font-family: var(--font-wordmark);
   font-size: clamp(0.8rem, 1.44vw, 1.04rem);
   font-weight: 700;
