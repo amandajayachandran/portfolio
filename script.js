@@ -288,7 +288,7 @@
             var rot = d.jitterRot * factor;
             d.el.style.transform =
               "translate(" + pushX.toFixed(1) + "px, " + pushY.toFixed(1) + "px) rotate(" + rot.toFixed(1) + "deg)";
-            d.el.style.color = "var(--ink-soft)";
+            d.el.style.color = "#D4DC55";
             d.active = true;
           } else if (d.active) {
             d.el.style.transform = "";
