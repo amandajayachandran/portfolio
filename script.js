@@ -113,22 +113,25 @@
       heroPhoto.style.left = (centerX - bleedRect.left) + "px";
       heroPhoto.style.top = (baselineY - bleedRect.top) + "px";
 
-      // Find the left edge of the first "R" in "Director" (index 2 of
+      // Find the right edge of the first "R" in "Director" (index 2 of
       // the text node: D-i-r-e-c-t-o-r) via a Range, since there's no
-      // per-letter element to measure directly.
+      // per-letter element to measure directly. The R's diagonal leg
+      // extends toward the right side of its character box, so the
+      // right edge is the closest DOM-measurable approximation of
+      // where that leg meets the baseline.
       var directorText = heroWords[1].firstChild;
-      var firstRLeft = secondWordRect.left;
+      var firstRRight = secondWordRect.left;
       if (directorText && directorText.nodeType === Node.TEXT_NODE && directorText.length > 2) {
         var range = document.createRange();
         range.setStart(directorText, 2);
         range.setEnd(directorText, 3);
         var rRect = range.getBoundingClientRect();
         if (rRect.width > 0) {
-          firstRLeft = rRect.left;
+          firstRRight = rRect.right;
         }
       }
 
-      var taglineLeft = firstRLeft - bleedRect.left;
+      var taglineLeft = firstRRight - bleedRect.left;
       var taglineRight = secondWordRect.right - bleedRect.left;
       var headlineBottom = heroMassive.getBoundingClientRect().bottom - bleedRect.top;
 
