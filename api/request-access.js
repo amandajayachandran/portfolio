@@ -86,7 +86,7 @@ export async function POST(request) {
     // code is ever valid).
     await redis("SET", `portfolio:otp:${email}`, hash, "EX", "900");
 
-    await fetch("https://api.resend.com/emails", {
+    const emailRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
@@ -102,6 +102,15 @@ export async function POST(request) {
           `If you didn't request this, you can safely ignore this email.`,
       }),
     });
+
+    if (!emailRes.ok) {
+      // The user-facing response stays generic either way (so this
+      // endpoint can't be used to test which emails are approved) --
+      // but log the real reason here so it's visible in Vercel's
+      // function logs when something's wrong.
+      const errorBody = await emailRes.text();
+      console.error("Resend send failed:", emailRes.status, errorBody);
+    }
 
     await redis(
       "LPUSH",
