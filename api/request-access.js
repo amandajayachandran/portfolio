@@ -48,11 +48,7 @@ async function sha256(text) {
 const GENERIC_MESSAGE =
   "If that email is approved for access, a one-time code has been sent.";
 
-export default async function handler(request) {
-  if (request.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
-  }
-
+export async function POST(request) {
   let email;
   try {
     const body = await request.json();
