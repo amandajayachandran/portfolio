@@ -54,11 +54,7 @@ function base64url(str) {
     .replace(/=+$/, "");
 }
 
-export default async function handler(request) {
-  if (request.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
-  }
-
+export async function POST(request) {
   let email, code;
   try {
     const body = await request.json();
