@@ -1,0 +1,12 @@
+{
+  "name": "amanda-jayachandran-site",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Portfolio site skeleton for Amanda Jayachandran, Content & Creative Director.",
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0"
+  }
+}
