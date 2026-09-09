@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Amanda Jayachandran</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="portfolio.css" />
+</head>
+<body class="portfolio-body">
+
+  <main class="portfolio-gate">
+
+    <section class="portfolio-step" data-step="email" id="step-email">
+      <p class="section-kicker section-kicker--void">Private portfolio</p>
+      <h1>Request access</h1>
+      <p class="portfolio-copy">
+        Enter the email address this portfolio was shared with. If it's
+        approved, a one-time access code will be sent to that inbox.
+      </p>
+      <form id="request-form" class="portfolio-form">
+        <label for="email-input" class="sr-only">Email address</label>
+        <input type="email" id="email-input" placeholder="you@company.com" required autocomplete="email" />
+        <button type="submit" class="portfolio-button">Send code</button>
+      </form>
+      <p class="portfolio-status" id="request-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="portfolio-step" data-step="code" id="step-code" hidden>
+      <p class="section-kicker section-kicker--void">Check your inbox</p>
+      <h1>Enter your code</h1>
+      <p class="portfolio-copy">
+        Enter the one-time code just sent to your email. It expires in
+        15 minutes and can only be used once.
+      </p>
+      <form id="verify-form" class="portfolio-form">
+        <label for="code-input" class="sr-only">One-time code</label>
+        <input type="text" id="code-input" placeholder="ABCD1234" maxlength="8" required autocomplete="one-time-code" />
+        <button type="submit" class="portfolio-button">View portfolio</button>
+      </form>
+      <p class="portfolio-status" id="verify-status" role="status" aria-live="polite"></p>
+      <button type="button" class="portfolio-link-button" id="request-new-code">Request a new code</button>
+    </section>
+
+    <section class="portfolio-step" data-step="video" id="step-video" hidden>
+      <p class="section-kicker section-kicker--void">Portfolio</p>
+      <h1>Amanda Jayachandran — Reel</h1>
+      <div class="video-wrap">
+        <video
+          id="portfolio-video"
+          controls
+          controlsList="nodownload noremoteplayback"
+          disablePictureInPicture
+          oncontextmenu="return false;"
+          playsinline
+        ></video>
+        <div class="video-watermark" id="video-watermark" aria-hidden="true"></div>
+      </div>
+      <p class="portfolio-copy portfolio-note-small">
+        This view is single-use and tied to your email. Refreshing or
+        returning later will require a new one-time code.
+      </p>
+    </section>
+
+  </main>
+
+  <script src="portfolio.js"></script>
+</body>
+</html>
