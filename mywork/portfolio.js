@@ -1,4 +1,4 @@
-// Portfolio gate: request code -> verify code -> load signed video URL.
+// mywork gate: request code -> verify code -> load signed video URL.
 // No password or content is ever present in this file -- everything is
 // validated server-side in /api/request-access, /api/verify-access,
 // and /api/video-url.
@@ -84,7 +84,7 @@
         });
       })
       .then(function (data) {
-        var video = document.getElementById("portfolio-video");
+        var video = document.getElementById("mywork-video");
         video.src = data.url;
 
         var watermark = document.getElementById("video-watermark");
@@ -102,7 +102,7 @@
 
   // Mild friction: pause playback if the tab loses focus.
   document.addEventListener("visibilitychange", function () {
-    var video = document.getElementById("portfolio-video");
+    var video = document.getElementById("mywork-video");
     if (video && document.hidden && !video.paused) {
       video.pause();
     }
