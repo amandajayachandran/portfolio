@@ -1,8 +1,8 @@
-/* Portfolio gate + player -- reuses design tokens from ../styles.css
+/* mywork gate + player -- reuses design tokens from ../styles.css
    (colors, fonts, spacing, radius) so it stays visually consistent
    with the rest of the site. */
 
-.portfolio-body {
+.mywork-body {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -12,30 +12,30 @@
   padding: var(--space-3);
 }
 
-.portfolio-gate {
+.mywork-gate {
   width: 100%;
   max-width: 32rem;
 }
 
-.portfolio-step h1 {
+.mywork-step h1 {
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 450;
   margin: var(--space-1) 0 var(--space-2);
 }
 
-.portfolio-copy {
+.mywork-copy {
   color: rgba(241, 243, 239, 0.7);
   margin-bottom: var(--space-3);
 }
 
-.portfolio-form {
+.mywork-form {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
 }
 
-.portfolio-form input {
+.mywork-form input {
   flex: 1;
   min-width: 12rem;
   background: transparent;
@@ -47,12 +47,12 @@
   border-radius: var(--radius);
 }
 
-.portfolio-form input:focus-visible {
+.mywork-form input:focus-visible {
   outline: 2px solid #90BD54;
   outline-offset: 2px;
 }
 
-.portfolio-button {
+.mywork-button {
   border: 1px solid var(--paper);
   background: var(--paper);
   color: var(--void);
@@ -64,18 +64,18 @@
   transition: opacity 0.2s var(--ease);
 }
 
-.portfolio-button:hover {
+.mywork-button:hover {
   opacity: 0.85;
 }
 
-.portfolio-status {
+.mywork-status {
   margin-top: var(--space-2);
   font-size: 0.9rem;
   color: #90BD54;
   min-height: 1.2em;
 }
 
-.portfolio-link-button {
+.mywork-link-button {
   margin-top: var(--space-2);
   background: none;
   border: 0;
@@ -115,14 +115,14 @@
   user-select: none;
 }
 
-.portfolio-note-small {
+.mywork-note-small {
   margin-top: var(--space-2);
   font-size: 0.8rem;
   color: rgba(241, 243, 239, 0.5);
 }
 
 @media (max-width: 480px) {
-  .portfolio-form {
+  .mywork-form {
     flex-direction: column;
   }
 }
