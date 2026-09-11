@@ -9,50 +9,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/mywork/portfolio.css" />
+  <link rel="stylesheet" href="/mywork/mywork.css" />
 </head>
-<body class="portfolio-body">
+<body class="mywork-body">
 
-  <main class="portfolio-gate">
+  <main class="mywork-gate">
 
-    <section class="portfolio-step" data-step="email" id="step-email">
+    <section class="mywork-step" data-step="email" id="step-email">
       <p class="section-kicker section-kicker--void">Private </p>
       <h1>Request access</h1>
-      <p class="portfolio-copy">
+      <p class="mywork-copy">
         Enter the email address this page was shared with in order to
         gain access. If it's approved, a one-time access code will be
         sent to that inbox.
       </p>
-      <form id="request-form" class="portfolio-form">
+      <form id="request-form" class="mywork-form">
         <label for="email-input" class="sr-only">Email address</label>
         <input type="email" id="email-input" placeholder="you@company.com" required autocomplete="email" />
-        <button type="submit" class="portfolio-button">Send code</button>
+        <button type="submit" class="mywork-button">Send code</button>
       </form>
-      <p class="portfolio-status" id="request-status" role="status" aria-live="polite"></p>
+      <p class="mywork-status" id="request-status" role="status" aria-live="polite"></p>
     </section>
 
-    <section class="portfolio-step" data-step="code" id="step-code" hidden>
+    <section class="mywork-step" data-step="code" id="step-code" hidden>
       <p class="section-kicker section-kicker--void">Check your inbox</p>
       <h1>Enter your code</h1>
-      <p class="portfolio-copy">
+      <p class="mywork-copy">
         Enter the one-time code just sent to your email. It expires in
         15 minutes and can only be used once.
       </p>
-      <form id="verify-form" class="portfolio-form">
+      <form id="verify-form" class="mywork-form">
         <label for="code-input" class="sr-only">One-time code</label>
         <input type="text" id="code-input" placeholder="ABCD1234" maxlength="8" required autocomplete="one-time-code" />
-        <button type="submit" class="portfolio-button">View Amanda's Work</button>
+        <button type="submit" class="mywork-button">View Amanda's Work</button>
       </form>
-      <p class="portfolio-status" id="verify-status" role="status" aria-live="polite"></p>
-      <button type="button" class="portfolio-link-button" id="request-new-code">Request a new code</button>
+      <p class="mywork-status" id="verify-status" role="status" aria-live="polite"></p>
+      <button type="button" class="mywork-link-button" id="request-new-code">Request a new code</button>
     </section>
 
-    <section class="portfolio-step" data-step="video" id="step-video" hidden>
+    <section class="mywork-step" data-step="video" id="step-video" hidden>
       <p class="section-kicker section-kicker--void">ROAR</p>
       <h1>Amanda Jayachandran</h1>
       <div class="video-wrap">
         <video
-          id="portfolio-video"
+          id="mywork-video"
           controls
           controlsList="nodownload noremoteplayback"
           disablePictureInPicture
@@ -61,7 +61,7 @@
         ></video>
         <div class="video-watermark" id="video-watermark" aria-hidden="true"></div>
       </div>
-      <p class="portfolio-copy portfolio-note-small">
+      <p class="mywork-copy mywork-note-small">
         This view is single-use and tied to your email. Refreshing or
         returning later will require a new one-time code.
       </p>
@@ -69,6 +69,6 @@
 
   </main>
 
-  <script src="/mywork/portfolio.js"></script>
+  <script src="/mywork/mywork.js"></script>
 </body>
 </html>
