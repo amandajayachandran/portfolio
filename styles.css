@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Amanda Jayachandran — portfolio skeleton
+   Amanda Jayachandran — design skeleton
    Design tokens
    ========================================================================== */
 
@@ -439,7 +439,7 @@ img { max-width: 100%; display: block; }
   max-width: 34ch;
 }
 
-.portfolio-note {
+.mywork-note {
   margin-top: var(--space-3);
   padding-top: 0;
   display: flex;
@@ -448,12 +448,12 @@ img { max-width: 100%; display: block; }
   gap: var(--space-2);
 }
 
-.portfolio-note p {
+.mywork-note p {
   max-width: 46ch;
   color: rgba(241, 243, 239, 0.7);
 }
 
-.portfolio-note-cta {
+.mywork-note-cta {
   flex-shrink: 0;
   border: 1px solid var(--paper);
   border-radius: var(--radius);
@@ -462,8 +462,8 @@ img { max-width: 100%; display: block; }
   transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
 }
 
-.portfolio-note-cta:hover,
-.portfolio-note-cta:focus-visible {
+.mywork-note-cta:hover,
+.mywork-note-cta:focus-visible {
   background: var(--paper);
   color: var(--void);
 }
