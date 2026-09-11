@@ -1,4 +1,4 @@
-// Amanda Jayachandran — portfolio skeleton
+// Amanda Jayachandran — design skeleton
 // Small, deliberate interactions only. No framework required.
 
 (function () {
